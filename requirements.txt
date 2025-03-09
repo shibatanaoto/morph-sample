@@ -1,0 +1,4 @@
+morph-data==0.2.0
+plotly
+langchain
+langchain-openai

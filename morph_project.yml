@@ -1,0 +1,7 @@
+default_connection: DUCKDB
+package_manager: pip
+profile: default
+project_id: 1836b971-fa33-43d2-9fb8-2b0fb87a54dd
+result_cache_ttl: 0
+source_paths:
+- src
