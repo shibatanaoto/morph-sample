@@ -1,5 +1,5 @@
 # ビルド用ステージ
-FROM public.ecr.aws/i1l4z0u0/morph-data:python${MORPH_PYTHON_VERSION} as builder
+FROM public.ecr.aws/i1l4z0u0/morph-data:python3.11 as builder
 
 WORKDIR /build
 
@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt --target /build/dependencies
 COPY . /build
 
 # 実行用ステージ（本番用イメージ）
-FROM public.ecr.aws/i1l4z0u0/morph-data:python${MORPH_PYTHON_VERSION}
+FROM public.ecr.aws/i1l4z0u0/morph-data:python3.11
 
 WORKDIR /var/task
 
