@@ -6,7 +6,7 @@ WORKDIR /var/task
 
 # Install Python dependencies with poetry
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt --target "${MORPH_PACKAGE_ROOT}"
+RUN pip install -r requirements.txt --target "${MORPH_PACKAGE_ROOT}"
 
 # Copy source code and dependencies
 COPY . .
