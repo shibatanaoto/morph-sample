@@ -1,15 +1,23 @@
-# Base image for Morph Cloud
-FROM public.ecr.aws/i1l4z0u0/morph-data-stg:python3.11
+# ビルド用ステージ
+FROM public.ecr.aws/i1l4z0u0/morph-data:python${MORPH_PYTHON_VERSION} as builder
 
-# Set working directory
+WORKDIR /build
+
+# 依存関係のインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt --target /build/dependencies
+
+# ソースコードをコピー
+COPY . /build
+
+# 実行用ステージ（本番用イメージ）
+FROM public.ecr.aws/i1l4z0u0/morph-data:python${MORPH_PYTHON_VERSION}
+
 WORKDIR /var/task
 
-# Install Python dependencies with poetry
-COPY requirements.txt .
-RUN pip install -r requirements.txt --target "${MORPH_PACKAGE_ROOT}"
+# builderから必要な依存関係のみをコピー
+COPY --from=builder /build/dependencies ${MORPH_PACKAGE_ROOT}
+COPY --from=builder /build .
 
-# Copy source code and dependencies
-COPY . .
-
-# Command to run the Lambda function
+# 起動コマンド
 CMD python "${MORPH_APP_FILE_PATH}"
